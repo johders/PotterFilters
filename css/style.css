@@ -1,0 +1,134 @@
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+/* CSS Variables */
+
+:root {
+  /* Howest colors */
+  --blue: #44C8F5;
+  --white: #FEFFFF;
+  --pink: #EC008C;
+  --lightpink: #F9B2DC;
+  --yellow: #FFED00;
+  --lighyellow: #fffded;
+  --green: #009A93;
+  --lightgreen: #EAF5F5;
+  --black: #000000;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--white);
+  color: var(--black);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--blue);
+}
+
+/* Buttons */
+
+button {
+  font-family: 'Open Sans', sans-serif;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border-style: solid;
+}
+
+.btn-yellow {
+  border-color: var(--yellow);
+  background-color: var(--lighyellow);
+  color: var(--black);
+}
+
+.btn-yellow:focus {
+  border-color: var(--blue);
+}
+
+.btn-yellow:hover {
+  background-color: var(--yellow);
+}
+
+.btn-pink {
+  border-color: var(--pink);
+  background-color: var(--lightpink);
+  color: var(--black);
+}
+
+.btn-pink:focus {
+  border-color: var(--blue);
+}
+
+.btn-pink:hover {
+  background-color: var(--pink);
+  color: var(--white);
+}
+
+/* Selects */
+
+select {
+  font-family: 'Open Sans', sans-serif;
+  padding: 10px 10px 10px 20px;
+  border-radius: 5px;
+  border-style: solid;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+article {
+    margin: .2em;
+    width: 20%;
+    text-align: center;
+    background-color: lightgray;
+    border-radius: .5em;
+}
+
+article img {
+    height: 5em;
+    margin-top: 1em;
+    border-radius: .5em;
+    border: 1px solid grey;
+}
+
+.gryffindor {
+    background-color: #740001;    
+}
+
+.slytherin {
+    background-color: #2A623D;
+}
+
+.hufflepuff {
+    background-color: #FFDB00;
+}
+
+.ravenclaw {
+    background-color: #222F5B;
+}
+
+.no-data{
+    background-color: darkblue;
+    padding : 10px;
+}
+
+.color-white-smoke{
+  color : whitesmoke;
+}
+
+footer div{
+  text-align: center;
+  width: 20px;
+  border : 1px solid black;
+  background-color: #009A93;
+  display: inline-block;
+}
+
+footer{
+  margin-top: 20px;
+}
+
+  
