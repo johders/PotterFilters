@@ -60,20 +60,35 @@ function populateSelection(residence){
 
     mainEl.innerHTML = "";
 
-    const filteredByHouse = potterCharacters.filter(char => {return char.house === residence});
+    let filteredByHouse = potterCharacters.filter(char => {return char.house === residence});
+    
+    if (residence ==="All"){
+        filteredByHouse = potterCharacters;
+    }
 
     filteredByHouse.forEach(c => console.log(c));
 
     filteredByHouse.forEach(person => {
         
         const articleEl = document.createElement("article");
+
+        if(person.house === ""){
+            articleEl.classList.add("no-data");
+        }
+        else{
+            articleEl.classList.add(person.house.toLowerCase());
+        }
+
         const nameEl = document.createElement("h1");
+        const imageEl = document.createElement("img");
+        imageEl.src = person.image;
         const actorNameEl = document.createElement("p");
 
         nameEl.innerText = person.name;
         actorNameEl.innerText = person.actor;
 
         articleEl.append(nameEl);
+        articleEl.append(imageEl);
         articleEl.append(actorNameEl);
         mainEl.append(articleEl);
 
