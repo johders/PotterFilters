@@ -2,7 +2,7 @@ import { potterCharacters } from "./datafile.js";
 
 "use strict";
 
-let homes;
+let homes, filteredByHouse;
 
 window.addEventListener("load", initialise);
 
@@ -12,8 +12,7 @@ function initialise() {
     getAllHomes();
     makeSelectOptions();
 
-
-    document.addEventListener("input", filterBasedOnSelection)
+    document.addEventListener("input", filterHouseBasedOnSelection)
 
 }
 
@@ -46,12 +45,20 @@ function makeSelectOptions(){
 }
 
 
-function filterBasedOnSelection(e){
+function filterHouseBasedOnSelection(e){
 
     const selectedHouse = e.target.value;
 
     populateSelection(selectedHouse);
 
+}
+
+function filterByHouse(residence){
+ filteredByHouse = potterCharacters.filter(char => {return char.house === residence});
+    
+    if (residence ==="All"){
+        filteredByHouse = potterCharacters;
+    }
 }
 
 function populateSelection(residence){
@@ -60,13 +67,8 @@ function populateSelection(residence){
 
     mainEl.innerHTML = "";
 
-    let filteredByHouse = potterCharacters.filter(char => {return char.house === residence});
-    
-    if (residence ==="All"){
-        filteredByHouse = potterCharacters;
-    }
-
-    filteredByHouse.forEach(c => console.log(c));
+    filterByHouse(residence);
+    makeRadioButtons(residence);
 
     filteredByHouse.forEach(person => {
         
@@ -94,4 +96,51 @@ function populateSelection(residence){
 
     });
 
+}
+
+function makeRadioButtons(selection){
+
+    const divEl = document.getElementById("ancestry");
+    divEl.innerHTML = "";
+    const ancestryOptions = [];
+
+    filteredByHouse.forEach(person => {
+
+        const existingOption = ancestryOptions.find(option => option === person.ancestry);
+
+        if(!existingOption){
+            if(person.ancestry !== ""){
+
+                ancestryOptions.push(person.ancestry);
+            }
+        }
+    });    
+
+
+    console.log(ancestryOptions);
+
+    const radioAllEl = document.createElement("input");
+    const radioLabelForAll = document.createElement("label");
+    radioAllEl.type = "radio";
+    radioAllEl.id = "All";
+    radioAllEl.name = "All";
+    radioAllEl.value = "All";
+    radioLabelForAll.for = "All";
+    radioLabelForAll.innerText = "All";
+    divEl.append(radioAllEl);
+    divEl.append(radioLabelForAll);
+
+    ancestryOptions.forEach(item => {
+
+        const radioEl = document.createElement("input");
+        const radioLabel = document.createElement("label");
+        radioEl.type = "radio";
+        radioEl.id = item;
+        radioEl.name = item;
+        radioEl.value = item;
+        radioLabel.for = item;
+        radioLabel.innerText = item;
+        divEl.append(radioEl);
+        divEl.append(radioLabel);
+    })
 }
