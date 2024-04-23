@@ -2,7 +2,7 @@ import { potterCharacters } from "./datafile.js";
 
 "use strict";
 
-let homes, filteredByHouse, houseList, mainEl;
+let homes, filteredByHouse, houseList, mainEl, divEl;
 
 window.addEventListener("load", initialise);
 
@@ -10,6 +10,8 @@ function initialise() {
 
     houseList = document.getElementById("houses");
     mainEl = document.getElementById("main");
+    divEl = document.getElementById("ancestry");
+
     console.log(potterCharacters);
     getAllHomes();
     makeSelectOptions();
@@ -64,45 +66,19 @@ function filterByHouse(residence){
 
 function populateSelection(residence){
 
-    // const mainEl = document.getElementById("main");
-
     mainEl.innerHTML = "";
 
     filterByHouse(residence);
     makeRadioButtons(residence);
 
-    filteredByHouse.forEach(person => {
-        
-        const articleEl = document.createElement("article");
-
-        if(person.house === ""){
-            articleEl.classList.add("no-data");
-        }
-        else{
-            articleEl.classList.add(person.house.toLowerCase());
-        }
-
-        const nameEl = document.createElement("h1");
-        const imageEl = document.createElement("img");
-        imageEl.src = person.image;
-        const actorNameEl = document.createElement("p");
-
-        nameEl.innerText = person.name;
-        actorNameEl.innerText = person.actor;
-
-        articleEl.append(nameEl);
-        articleEl.append(imageEl);
-        articleEl.append(actorNameEl);
-        mainEl.append(articleEl);
-
+    filteredByHouse.forEach(person => {      
+        makePersonCard(person);
     });
 
 }
 
-
 function makeRadioButtons(){
 
-    const divEl = document.getElementById("ancestry");
     divEl.innerHTML = "";
     const ancestryOptions = [];
 
@@ -120,32 +96,13 @@ function makeRadioButtons(){
 
     console.log(ancestryOptions);
 
-    const radioAllEl = document.createElement("input");
-    const radioLabelForAll = document.createElement("label");
-    radioAllEl.type = "radio";
-    radioAllEl.id = "All";
-    radioAllEl.name = "ancestry";
-    radioAllEl.value = "All";
-    radioAllEl.addEventListener("click", filterByAncestry)
-    radioLabelForAll.for = "All";
-    radioLabelForAll.innerText = "All";
-    divEl.append(radioAllEl);
-    divEl.append(radioLabelForAll);
+    createRadioElement("All");
 
     ancestryOptions.forEach(item => {
 
-        const radioEl = document.createElement("input");
-        const radioLabel = document.createElement("label");
-        radioEl.type = "radio";
-        radioEl.id = item;
-        radioEl.name = "ancestry";
-        radioEl.value = item;
-        radioEl.addEventListener("click", filterByAncestry)
-        radioLabel.for = item;
-        radioLabel.innerText = item;
-        divEl.append(radioEl);
-        divEl.append(radioLabel);
-    })
+        createRadioElement(item);
+
+    });
 }
 
 function filterByAncestry(e){
@@ -159,8 +116,16 @@ function filterByAncestry(e){
     mainEl.innerHTML = "";
 
     result.forEach(person => {
-        
-        const articleEl = document.createElement("article");
+
+        makePersonCard(person);
+
+    });
+   
+}
+
+function makePersonCard(person){
+
+    const articleEl = document.createElement("article");
 
         if(person.house === ""){
             articleEl.classList.add("no-data");
@@ -182,6 +147,19 @@ function filterByAncestry(e){
         articleEl.append(actorNameEl);
         mainEl.append(articleEl);
 
-    });
-   
+}
+
+function createRadioElement(option){
+
+    const radioEl = document.createElement("input");
+        const radioLabel = document.createElement("label");
+        radioEl.type = "radio";
+        radioEl.id = option;
+        radioEl.name = "ancestry";
+        radioEl.value = option;
+        radioEl.addEventListener("click", filterByAncestry)
+        radioLabel.for = option;
+        radioLabel.innerText = option;
+        divEl.append(radioEl);
+        divEl.append(radioLabel);
 }
