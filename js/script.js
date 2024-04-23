@@ -1,5 +1,5 @@
-import { potterCharacters } from "./datafile.js";
 
+import { potterCharacters } from "./datafile.js";
 "use strict";
 
 let homes, filteredByHouse, houseList, mainEl, divEl;
@@ -11,6 +11,7 @@ function initialise() {
     houseList = document.getElementById("houses");
     mainEl = document.getElementById("main");
     divEl = document.getElementById("ancestry");
+ 
 
     console.log(potterCharacters);
     getAllHomes();
@@ -18,6 +19,7 @@ function initialise() {
 
     houseList.addEventListener("input", filterHouseBasedOnSelection)
 
+    getJsonData();
 }
 
 function getAllHomes(){
@@ -162,4 +164,19 @@ function createRadioElement(option){
         radioLabel.innerText = option;
         divEl.append(radioEl);
         divEl.append(radioLabel);
+}
+
+function getJsonData(){
+
+    const jsonUrl = "https://howest-gp-wfa.github.io/st-2223-2-d-pe03-HP-jd-HW/js/characters.json";
+
+    fetch(jsonUrl)
+    .then(function (resp) {
+    return resp.json();
+    })
+    .then(function (data) {
+    console.log(data);
+    
+    })
+    .catch(error => console.log(error));    
 }
