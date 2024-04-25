@@ -62,9 +62,9 @@ function filterHouseBasedOnSelection(e){
 }
 
 function filterByHouse(residence){
- filteredByHouse = allCharacters.filter(char => {return char.house === residence});
+ filteredByHouse = allCharacters.filter(char => {return char.house === residence;});
     
-    if (residence ==="All"){
+    if (residence === "All"){
         filteredByHouse = allCharacters;
     }
 }
@@ -114,7 +114,7 @@ function filterByAncestry(e){
 
     let result = filteredByHouse.filter(person => person.ancestry === e.target.value);
 
-    if (e.target.value ==="All"){
+    if (e.target.value === "All"){
         result = filteredByHouse;
     }
 
@@ -133,7 +133,7 @@ function makePersonCard(person){
     const articleEl = document.createElement("article");
 
         if(person.house === ""){
-            articleEl.classList.add("no-data");
+            articleEl.classList.add("color-white-smoke");
         }
         else{
             articleEl.classList.add(person.house.toLowerCase());
@@ -143,7 +143,7 @@ function makePersonCard(person){
         const imageEl = document.createElement("img");
 
         if(person.image === ""){
-            imageEl.src = "img/No_Image_Available.jpg"
+            imageEl.src = "img/No_Image_Available.jpg";
         }
         else{
 
@@ -158,17 +158,17 @@ function makePersonCard(person){
         articleEl.append(imageEl);
         articleEl.append(actorNameEl);
 
-        const isWizard = person.wizard? "Wizard: Yes" : "Wizard: No";
+        const isWizard = person.wizard ? "Wizard: Yes" : "Wizard: No";
         let status;
 
         if(person.hogwartsStaff){
             status = "Status: Staff";
         }
         else if(person.hogwartsStudent){
-            status = "Status: Student"
+            status = "Status: Student";
         }
         else{
-            status = "Status: Other"
+            status = "Status: Other";
         }
 
         articleEl.title = isWizard + "\n" + status;
@@ -184,7 +184,7 @@ function createRadioElement(option){
         radioEl.id = option;
         radioEl.name = "ancestry";
         radioEl.value = option;
-        radioEl.addEventListener("click", filterByAncestry)
+        radioEl.addEventListener("click", filterByAncestry);
         radioLabel.for = option;
         radioLabel.innerText = option;
         divEl.append(radioEl);
