@@ -19,7 +19,7 @@ function initialise() {
     getAllHomes();
     makeSelectOptions();
 
-    houseList.addEventListener("change", filterHouseBasedOnSelection);
+    houseList.addEventListener("input", filterHouseBasedOnSelection);
     buttonEl.addEventListener("click", toggleHouseDataSource);
 
 
@@ -158,15 +158,8 @@ function makePersonCard(person){
         articleEl.append(imageEl);
         articleEl.append(actorNameEl);
 
-        let isWizard;
+        const isWizard = person.wizard? "Wizard: Yes" : "Wizard: No";
         let status;
-
-        if(person.wizard){
-            isWizard = "Wizard: Yes";
-        }        
-        else{
-            isWizard = "Wizard: No";
-        }
 
         if(person.hogwartsStaff){
             status = "Status: Staff";
@@ -175,9 +168,8 @@ function makePersonCard(person){
             status = "Status: Student"
         }
         else{
-            status = "Status: Unemployed"
+            status = "Status: Other"
         }
-
 
         articleEl.title = isWizard + "\n" + status;
         mainEl.append(articleEl);
@@ -223,11 +215,15 @@ async function toggleHouseDataSource(){
         await getJsonData();
         allCharacters = onlineData;
         buttonEl.innerText = "Get Offline Data";
+        houseList[0].selected = true;
+        populateSelection("All");
         local = false;
     }
     else{
         allCharacters = potterCharacters;
         buttonEl.innerText = "Get Online Data";
+        houseList[0].selected = true;
+        populateSelection("All");
         local = true;
     }
 
