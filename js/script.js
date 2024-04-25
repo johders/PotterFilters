@@ -141,7 +141,14 @@ function makePersonCard(person){
 
         const nameEl = document.createElement("h1");
         const imageEl = document.createElement("img");
-        imageEl.src = person.image;
+
+        if(person.image === ""){
+            imageEl.src = "img/No_Image_Available.jpg"
+        }
+        else{
+
+            imageEl.src = person.image;
+        }
         const actorNameEl = document.createElement("p");
 
         nameEl.innerText = person.name;
