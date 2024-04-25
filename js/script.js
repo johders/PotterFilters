@@ -2,31 +2,34 @@
 import { potterCharacters } from "./datafile.js";
 "use strict";
 
-let homes, filteredByHouse, houseList, mainEl, divEl;
+let allCharacters, homes, filteredByHouse, houseList, mainEl, divEl, buttonEl, local, onlineData;
 
 window.addEventListener("load", initialise);
 
 function initialise() {
 
+    allCharacters = potterCharacters;
     houseList = document.getElementById("houses");
     mainEl = document.getElementById("main");
     divEl = document.getElementById("ancestry");
- 
+    buttonEl = document.getElementById("get-data-online");
+    local = true;
 
     console.log(potterCharacters);
     getAllHomes();
     makeSelectOptions();
 
-    houseList.addEventListener("input", filterHouseBasedOnSelection)
+    houseList.addEventListener("input", filterHouseBasedOnSelection);
+    buttonEl.addEventListener("click", toggleHouseDataSource);
 
-    getJsonData();
+    // getJsonData();
 }
 
 function getAllHomes(){
 
     homes = [];
 
-    potterCharacters.forEach(character => {
+    allCharacters.forEach(character => {
 
         const existingHome = homes.find(home => home === character.house);
 
@@ -59,10 +62,10 @@ function filterHouseBasedOnSelection(e){
 }
 
 function filterByHouse(residence){
- filteredByHouse = potterCharacters.filter(char => {return char.house === residence});
+ filteredByHouse = allCharacters.filter(char => {return char.house === residence});
     
     if (residence ==="All"){
-        filteredByHouse = potterCharacters;
+        filteredByHouse = allCharacters;
     }
 }
 
@@ -166,17 +169,36 @@ function createRadioElement(option){
         divEl.append(radioLabel);
 }
 
-function getJsonData(){
+async function getJsonData(){
 
-    const jsonUrl = "https://howest-gp-wfa.github.io/st-2223-2-d-pe03-HP-jd-HW/js/characters.json";
+    const jsonUrl = "https://howest-gp-wfa.github.io/st-2223-2-d-pe03-HP-jd-HW/api/characters.json";
+    onlineData = [];
 
-    fetch(jsonUrl)
-    .then(function (resp) {
-    return resp.json();
-    })
-    .then(function (data) {
-    console.log(data);
+    try{
+        const response = await fetch(jsonUrl);
+        const data = await response.json();
     
-    })
-    .catch(error => console.log(error));    
+        onlineData = data;
+        console.log(onlineData);
+    }
+    catch(e){
+        console.log(response);
+    }
+     
+}
+
+async function toggleHouseDataSource(){
+
+    if(local){
+        await getJsonData();
+        allCharacters = onlineData;
+        local = false;
+    }
+    else{
+        allCharacters = potterCharacters;
+        local = true;
+    }
+
+    console.log(allCharacters);
+
 }
