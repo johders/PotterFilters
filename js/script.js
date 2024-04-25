@@ -19,10 +19,10 @@ function initialise() {
     getAllHomes();
     makeSelectOptions();
 
-    houseList.addEventListener("input", filterHouseBasedOnSelection);
+    houseList.addEventListener("change", filterHouseBasedOnSelection);
     buttonEl.addEventListener("click", toggleHouseDataSource);
 
-    // getJsonData();
+
 }
 
 function getAllHomes(){
@@ -157,6 +157,29 @@ function makePersonCard(person){
         articleEl.append(nameEl);
         articleEl.append(imageEl);
         articleEl.append(actorNameEl);
+
+        let isWizard;
+        let status;
+
+        if(person.wizard){
+            isWizard = "Wizard: Yes";
+        }        
+        else{
+            isWizard = "Wizard: No";
+        }
+
+        if(person.hogwartsStaff){
+            status = "Status: Staff";
+        }
+        else if(person.hogwartsStudent){
+            status = "Status: Student"
+        }
+        else{
+            status = "Status: Unemployed"
+        }
+
+
+        articleEl.title = isWizard + "\n" + status;
         mainEl.append(articleEl);
 
 }
@@ -199,10 +222,12 @@ async function toggleHouseDataSource(){
     if(local){
         await getJsonData();
         allCharacters = onlineData;
+        buttonEl.innerText = "Get Offline Data";
         local = false;
     }
     else{
         allCharacters = potterCharacters;
+        buttonEl.innerText = "Get Online Data";
         local = true;
     }
 
