@@ -1,6 +1,6 @@
 
-import { potterCharacters } from "./datafile.js";
 "use strict";
+import { potterCharacters } from "./datafile.js";
 
 let allCharacters, homes, filteredByHouse, houseList, mainEl, divEl, buttonEl, local, onlineData;
 
@@ -108,6 +108,9 @@ function makeRadioButtons(){
         createRadioElement(item);
 
     });
+
+    const rdbAncestry = document.getElementsByName("ancestry");
+    rdbAncestry[0].checked = true;
 }
 
 function filterByAncestry(e){
