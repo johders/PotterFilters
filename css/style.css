@@ -131,4 +131,40 @@ footer{
   margin-top: 20px;
 }
 
+.pagination{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   
+}
+
+.pagination button{
+  width: 30px;
+  height: 30px;
+  appearance: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: var(--lightpink);
+  margin: 5px;
+  transition: .4s;
+
+  color: #fff;
+  font-size: 18px;
+  padding: 0;
+  text-shadow: 0px 0px 4px rgba(0, 0, 0, .2);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, .2);
+
+}
+  
+.pagination button:hover {
+  background-color: var(--pink);
+  width: 35px;
+  height: 35px;
+}
+
+.pagination button.active {
+  background-color: var(--pink);
+  box-shadow: inset 0px 0px 4px rgba(0, 0, 0, .2);
+}
