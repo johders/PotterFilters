@@ -112,7 +112,8 @@ article img {
 
 .no-data{
     background-color: darkblue;
-    /* padding : 10px; */
+    padding : 10px;
+    color: white;
 }
 
 .color-white-smoke{

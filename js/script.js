@@ -19,13 +19,11 @@ function initialise() {
     currentPage = 1;
     maxItemsOnPage = 12;
 
-    console.log(potterCharacters);
     getAllHomes();
     makeSelectOptions();
 
     houseList.addEventListener("input", filterHouseBasedOnSelection);
     buttonEl.addEventListener("click", toggleHouseDataSource);
-
 
 }
 
@@ -41,8 +39,6 @@ function getAllHomes(){
             homes.push(character.house);
         }
     });
-
-    console.log(homes);
 }
 
 function makeSelectOptions(){
@@ -64,7 +60,7 @@ function filterHouseBasedOnSelection(e){
 
 }
 
-function filterByHouse(residence){
+function getPeopleFilteredByHouse(residence){
  filteredByHouse = allCharacters.filter(char => {return char.house === residence;});
     
     if (residence === "All"){
@@ -75,67 +71,13 @@ function filterByHouse(residence){
 function populateSelection(residence){
 
     mainEl.innerHTML = "";
-
-    filterByHouse(residence);
-    makeRadioButtons(residence);
-
     currentPage = 1;
+
+    getPeopleFilteredByHouse(residence);
+    makeRadioButtons(residence);
 
     paginate(filteredByHouse, mainEl, maxItemsOnPage, currentPage);
     generatePaginationControls(filteredByHouse, pageNumbersEl, maxItemsOnPage);
-
-}
-
-function paginate(items, wrapper, rowsPerPage, page){
-
-    wrapper.innerHTML = "";
-    page--;
-
-    const start = rowsPerPage * page;
-    const end = start + rowsPerPage;
-    const paginatedItems = items.slice(start, end);
-
-
-    console.log(paginatedItems);
-
-    for(let i = 0; i < paginatedItems.length; i++){
-        const person = paginatedItems[i];
-
-        makePersonCard(person);
-    }
-}
-
-function generatePaginationControls(items, wrapper, rowsPerPage){
-
-    wrapper.innerHTML = "";
-    const pageCount = Math.ceil(items.length / rowsPerPage);
-
-    for(let i = 1; i < pageCount + 1; i++){
-        const btnEl = paginationButton(i, items);
-        wrapper.appendChild(btnEl);
-    }
-}
-
-function paginationButton(page, items){
-    const button = document.createElement("button");
-    button.innerText = page;
-
-    if(currentPage == page){
-        button.classList.add("active");
-    }
-
-    button.addEventListener("click", function (){
-
-        currentPage = page;
-        paginate(items, mainEl, maxItemsOnPage, currentPage);
-
-        const currentButtonEl = document.querySelector(".pagination button.active");
-        currentButtonEl.classList.remove("active");
-
-        button.classList.add("active");
-    });
-
-    return button;
 }
 
 function makeRadioButtons(){
@@ -143,7 +85,7 @@ function makeRadioButtons(){
     divEl.innerHTML = "";
     const ancestryOptions = [];
 
-    filteredByHouse.forEach(person => {
+    allCharacters.forEach(person => {
 
         const existingOption = ancestryOptions.find(option => option === person.ancestry);
 
@@ -154,8 +96,6 @@ function makeRadioButtons(){
             }
         }
     });    
-
-    console.log(ancestryOptions);
 
     createRadioElement("All");
 
@@ -171,24 +111,32 @@ function makeRadioButtons(){
 
 function filterByAncestry(e){
 
+    currentPage = 1;
     let result = filteredByHouse.filter(person => person.ancestry === e.target.value);
 
     if (e.target.value === "All"){
         result = filteredByHouse;
     }
 
-    // mainEl.innerHTML = "";
-
-    // result.forEach(person => {
-
-    //     makePersonCard(person);
-
-    // });
-    currentPage = 1;
+    if(result.length == 0){
+        createNoResultsEl();
+        pageNumbersEl.innerHTML = "";
+        return;
+    }
 
     paginate(result, mainEl, maxItemsOnPage, currentPage);
-    generatePaginationControls(result, pageNumbersEl, maxItemsOnPage);
-   
+    generatePaginationControls(result, pageNumbersEl, maxItemsOnPage);  
+}
+
+function createNoResultsEl(){
+
+    mainEl.innerHTML = "";
+
+    const articleEl = document.createElement("article");
+    articleEl.innerText = "No data with this filter combination";
+    articleEl.classList.add("no-data");
+
+    mainEl.append(articleEl);
 }
 
 function makePersonCard(person){
@@ -264,7 +212,6 @@ async function getJsonData(){
         const data = await response.json();
     
         onlineData = data;
-        console.log(onlineData);
     }
     catch(e){
         console.log(response);
@@ -289,7 +236,57 @@ async function toggleHouseDataSource(){
         populateSelection("All");
         local = true;
     }
+}
 
-    console.log(allCharacters);
+function paginate(items, wrapper, rowsPerPage, page){
 
+    wrapper.innerHTML = "";
+    page--;
+
+    const start = rowsPerPage * page;
+    const end = start + rowsPerPage;
+    const paginatedItems = items.slice(start, end);
+
+    for(let i = 0; i < paginatedItems.length; i++){
+        const person = paginatedItems[i];
+
+        makePersonCard(person);
+    }
+}
+
+function generatePaginationControls(items, wrapper, rowsPerPage){
+
+    wrapper.innerHTML = "";
+    const pageCount = Math.ceil(items.length / rowsPerPage);
+
+    if(pageCount > 1){
+        for(let i = 1; i < pageCount + 1; i++){
+            const btnEl = paginationButton(i, items);
+            wrapper.appendChild(btnEl);
+        }
+    }
+
+    
+}
+
+function paginationButton(page, items){
+    const button = document.createElement("button");
+    button.innerText = page;
+
+    if(currentPage == page){
+        button.classList.add("active");
+    }
+
+    button.addEventListener("click", function (){
+
+        currentPage = page;
+        paginate(items, mainEl, maxItemsOnPage, currentPage);
+
+        const currentButtonEl = document.querySelector(".pagination button.active");
+        currentButtonEl.classList.remove("active");
+
+        button.classList.add("active");
+    });
+
+    return button;
 }
