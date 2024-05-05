@@ -53,19 +53,11 @@ function makeSelectOptions(){
 }
 
 
-function filterHouseBasedOnSelection(e){
+function filterHouseBasedOnSelection(){
 
-    const selectedHouse = e.target.value;
+    const selectedHouse = this.value;
     populateSelection(selectedHouse);
 
-}
-
-function getPeopleFilteredByHouse(residence){
- filteredByHouse = allCharacters.filter(char => {return char.house === residence;});
-    
-    if (residence === "All"){
-        filteredByHouse = allCharacters;
-    }
 }
 
 function populateSelection(residence){
@@ -78,6 +70,14 @@ function populateSelection(residence){
 
     paginate(filteredByHouse, mainEl, maxItemsOnPage, currentPage);
     generatePaginationControls(filteredByHouse, pageNumbersEl, maxItemsOnPage);
+}
+
+function getPeopleFilteredByHouse(residence){
+ filteredByHouse = allCharacters.filter(char => {return char.house === residence;});
+    
+    if (residence === "All"){
+        filteredByHouse = allCharacters;
+    }
 }
 
 function makeRadioButtons(){
@@ -109,12 +109,27 @@ function makeRadioButtons(){
     rdbAncestry[0].checked = true;
 }
 
-function filterByAncestry(e){
+function createRadioElement(option){
+
+    const radioEl = document.createElement("input");
+        const radioLabel = document.createElement("label");
+        radioEl.type = "radio";
+        radioEl.id = option;
+        radioEl.name = "ancestry";
+        radioEl.value = option;
+        radioEl.addEventListener("click", filterByAncestry);
+        radioLabel.for = option;
+        radioLabel.innerText = option;
+        divEl.append(radioEl);
+        divEl.append(radioLabel);
+}
+
+function filterByAncestry(){
 
     currentPage = 1;
-    let result = filteredByHouse.filter(person => person.ancestry === e.target.value);
+    let result = filteredByHouse.filter(person => person.ancestry === this.value);
 
-    if (e.target.value === "All"){
+    if (this.value === "All"){
         result = filteredByHouse;
     }
 
@@ -187,21 +202,6 @@ function makePersonCard(person){
 
 }
 
-function createRadioElement(option){
-
-    const radioEl = document.createElement("input");
-        const radioLabel = document.createElement("label");
-        radioEl.type = "radio";
-        radioEl.id = option;
-        radioEl.name = "ancestry";
-        radioEl.value = option;
-        radioEl.addEventListener("click", filterByAncestry);
-        radioLabel.for = option;
-        radioLabel.innerText = option;
-        divEl.append(radioEl);
-        divEl.append(radioLabel);
-}
-
 async function getJsonData(){
 
     const jsonUrl = "https://howest-gp-wfa.github.io/st-2223-2-d-pe03-HP-jd-HW/api/characters.json";
@@ -214,7 +214,7 @@ async function getJsonData(){
         onlineData = data;
     }
     catch(e){
-        console.log(response);
+        alert(e);
     }
      
 }
