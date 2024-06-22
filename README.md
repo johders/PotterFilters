@@ -1,5 +1,17 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/hofqWcbc)
-# PE03 - Harry Potter Characters
+# PE03 - Harry Potter Characters (Semester 2 - Apr 2024)
+
+## Intro
+
+This JavaScript project displays Harry Potter characters (json objects) based on house and ancestry filters.
+
+## Learning objectives
+
+- Dynamically create and manipulate form elements
+- Use of array methods to filter results
+- Learn use of json fetch APT to asyncronously access data from external online source
+- Pagination
+
+# Original assignment instructions (NL):
 
 Maak een applicatie waar in je een lijst weergeeft van een aantal karakters uit Harry Potter op basis van een aangeleverde datafile.
 
